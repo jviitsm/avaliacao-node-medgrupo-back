@@ -47,12 +47,12 @@ If you need to update `npm`, you can make it using `npm`! Cool right? After runn
 
 ## Running the project
   
-    $ tsc
+    $ npm run build
     $ npm start
 
 ## Simple build for production
 
-    $ tsc
+    $ npm run build
     
     
     
