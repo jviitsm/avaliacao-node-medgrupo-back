@@ -1,11 +1,137 @@
-# Collections postman
-[avaliacao-node-medgrupo.postman_collection.json.zip](https://github.com/jviitsm/avaliacao-node-medgrupo-back/files/8856446/avaliacao-node-medgrupo.postman_collection.json.zip)
-
 # avaliacao-node-medgrupo-back
 
 Projeto de avaliacão medgrupo
 
 ---
+
+## Collections Postman
+
+{
+	"info": {
+		"_postman_id": "230d68e7-234d-49a9-bdfb-f6dbc3398298",
+		"name": "avaliacao-node-medgrupo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2820698"
+	},
+	"item": [
+		{
+			"name": "find all contact",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/contatos",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"contatos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find contact by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/contatos/629e25854f704a2ebdae8830",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"contatos",
+						"629e25854f704a2ebdae8830"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post contact",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"teste\",\n    \"birthday\" : \"1997-03-13\",\n    \"gender\" : \"Male\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/contatos",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"contatos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete contact",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/contatos/629f982ddeff3b802ec88f67",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"contatos",
+						"629f982ddeff3b802ec88f67"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "disable contract",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"isActive\" : false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/contatos/disable/629f9dc2ab64bd84334df8d6",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"contatos",
+						"disable",
+						"629f9dc2ab64bd84334df8d6"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
+
+[avaliacao-node-medgrupo.postman_collection.json.zip](https://github.com/jviitsm/avaliacao-node-medgrupo-back/files/8856446/avaliacao-node-medgrupo.postman_collection.json.zip)
+---
+
 ## Requirements
 
 Node
