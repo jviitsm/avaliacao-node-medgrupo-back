@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleError = void 0;
 const resolveError = (error) => {
     const ErrorTypes = {
         CastError: function () {
@@ -28,7 +27,7 @@ const resolveError = (error) => {
     }
     return ErrorTypes.default();
 };
-const handleError = (req, res, err, done) => {
+exports.handleError = (req, res, err, done) => {
     err.toJSON = () => {
         return {
             message: "Server Error",
@@ -38,4 +37,3 @@ const handleError = (req, res, err, done) => {
     resolveError(err);
     done();
 };
-exports.handleError = handleError;
