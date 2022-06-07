@@ -35,7 +35,6 @@ const handleError = (req, res, err, done) => {
             errors: err.message,
         };
     };
-    console.log(err.name);
     resolveError(err);
     done();
 };

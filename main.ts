@@ -1,9 +1,11 @@
 import { Server } from "./server/server";
 
+import { contatoController } from "./controllers/contacts.controller";
+
 const server = new Server();
 
 server
-  .bootstrap([])
+  .bootstrap([contatoController])
   .then((server) => {
     console.log("Server is listening on:", server.application.address());
   })

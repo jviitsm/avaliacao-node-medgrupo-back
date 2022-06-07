@@ -32,7 +32,7 @@ class ModelRouter extends router_1.Router {
                 page = page > 0 ? page : 1;
                 const skip = (page - 1) * this.pageSize;
                 const count = yield this.model.count({});
-                const documents = yield (this.model.find().skip(skip).limit(this.pageSize));
+                const documents = yield (this.model.find({ isActive: true }).skip(skip).limit(this.pageSize));
                 this.renderAll(res, req, documents, {
                     page,
                     count,
@@ -46,7 +46,10 @@ class ModelRouter extends router_1.Router {
         });
         this.findById = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const document = yield this.prepareOne(this.model.findById(req.params.id));
+                const document = yield this.model.findOne({
+                    _id: req.params.id,
+                    isActive: true,
+                });
                 this.render(res, next, document);
             }
             catch (error) {
@@ -54,12 +57,17 @@ class ModelRouter extends router_1.Router {
             }
         });
         this.save = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-            const document = new this.model(req.body);
-            const saveDocument = yield document.save();
-            this.render(res, next, saveDocument);
+            try {
+                const document = new this.model(req.body);
+                const saveDocument = yield document.save();
+                this.render(res, next, saveDocument);
+            }
+            catch (error) {
+                next(error);
+            }
         });
         this.replace = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-            const options = { runValidators: true, overwrite: true };
+            const options = { runValidators: true, overwrite: false };
             try {
                 const result = yield this.model.update({ _id: req.params.id }, req.body, options);
                 if (result.n) {
@@ -98,7 +106,9 @@ class ModelRouter extends router_1.Router {
                     throw new restify_errors_1.NotFoundError("Document not found");
                 }
             }
-            catch (error) { }
+            catch (error) {
+                next(error);
+            }
         });
         this.basePath = `/${model.collection.name}`;
     }

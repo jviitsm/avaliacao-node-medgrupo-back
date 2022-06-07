@@ -61,7 +61,7 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router {
       const count = await this.model.count({});
 
       const documents = await (<any>(
-        this.model.find().skip(skip).limit(this.pageSize)
+        this.model.find({ isActive: true }).skip(skip).limit(this.pageSize)
       ));
       this.renderAll(res, req, documents, {
         page,
@@ -76,9 +76,10 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router {
 
   findById = async (req, res, next) => {
     try {
-      const document = await this.prepareOne(
-        this.model.findById(req.params.id)
-      );
+      const document = await this.model.findOne({
+        _id: req.params.id,
+        isActive: true,
+      });
       this.render(res, next, document);
     } catch (error) {
       next(error);
@@ -86,13 +87,17 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router {
   };
 
   save = async (req, res, next) => {
-    const document = new this.model(req.body);
-    const saveDocument = await document.save();
-    this.render(res, next, saveDocument);
+    try {
+      const document = new this.model(req.body);
+      const saveDocument = await document.save();
+      this.render(res, next, saveDocument);
+    } catch (error) {
+      next(error);
+    }
   };
 
   replace = async (req, res, next) => {
-    const options = { runValidators: true, overwrite: true };
+    const options = { runValidators: true, overwrite: false };
     try {
       const result = await this.model.update(
         { _id: req.params.id },
@@ -137,6 +142,8 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router {
       } else {
         throw new NotFoundError("Document not found");
       }
-    } catch (error) {}
+    } catch (error) {
+      next(error);
+    }
   };
 }

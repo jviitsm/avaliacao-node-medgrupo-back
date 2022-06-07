@@ -25,7 +25,7 @@ class Server {
         return new Promise((resolve, reject) => {
             try {
                 this.application = restify.createServer({
-                    name: "meat-api",
+                    name: "avaliacao-node",
                     version: "1.0.0",
                 });
                 this.application.use(restify.plugins.queryParser());

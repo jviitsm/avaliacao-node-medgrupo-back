@@ -41,7 +41,6 @@ export const handleError = (
       errors: err.message,
     };
   };
-  console.log(err.name);
   resolveError(err);
   done();
 };
