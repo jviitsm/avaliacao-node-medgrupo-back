@@ -4,14 +4,11 @@ import * as request from "supertest";
 let address: string = global.address;
 
 //Testes positivos
-test("get /contatos", () => {
-  return request(address)
-    .get("/contatos")
-    .then((response) => {
-      expect(response.status).toBe(200);
-      expect(response.body.items).toBeInstanceOf(Array);
-    })
-    .catch(fail);
+test("get /contatos", async () => {
+  const response = await request(address).get("/contatos");
+
+  expect(response.status).toBe(200);
+  expect(response.body.items).toBeInstanceOf(Array);
 });
 
 test("post /contatos", () => {
@@ -29,6 +26,22 @@ test("post /contatos", () => {
       expect(response.body.birthday).toBe("1997-03-03T00:00:00.000Z");
       expect(response.body.gender).toBe("Male");
       expect(response.body.age).toBe(25);
+    })
+    .catch(fail);
+});
+
+test("post /contatos calcular idade certa 30 anos ", () => {
+  return request(address)
+    .post("/contatos")
+    .send({
+      name: "test",
+      birthday: "1992-03-03",
+      gender: "Male",
+    })
+    .then((response) => {
+      expect(response.status).toBe(200);
+      expect(response.body._id).toBeDefined();
+      expect(response.body.age).toBe(30);
     })
     .catch(fail);
 });
@@ -97,7 +110,7 @@ test("post /contatos - Contato menor de idade", () => {
       expect(response.body.errors).toBeInstanceOf(Array);
       expect(response.body.errors).toHaveLength(1);
       expect(response.body.errors[0].error).toContain(
-        "O Contato precisa ser maior de 18 anos. ."
+        "O Contato precisa ser maior de 18 anos"
       );
     })
     .catch(fail);
@@ -158,8 +171,7 @@ test("patch /contatos/disable/aaaaa - not found", () => {
 });
 
 //Cria um contato, o desativa e tenta achar-lo novamente
-//Criar contrato e filtrar por _id
-test("get /contatos - findById", () => {
+test("post patch e get /contatos - Cria um contato, o desativa e tenta achar-lo novamente", () => {
   let _id = undefined;
   return request(address)
     .post("/contatos")
